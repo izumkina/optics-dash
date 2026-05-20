@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACUVUE® — Marketplace Analytics 2025</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root{
+  --blue:#003087; --blue2:#0057B7; --sky:#00A3E0; --teal:#00B5CC;
+  --white:#FFFFFF; --offwhite:#F0F6FC; --gray:#E4EEF8; --dgray:#4A5568; --text:#1A2B4A;
+  --b-acuvue:#003087; --b-alcon:#E63946; --b-adria:#F4A261; --b-bausch:#2A9D8F; --b-cooper:#8B5CF6;
+  --border:#C8DEF2; --shadow:0 2px 14px rgba(0,48,135,0.09);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Open Sans',sans-serif;background:var(--offwhite);color:var(--text);min-height:100vh}
+
+/* HEADER */
+.header{background:linear-gradient(135deg,var(--blue) 0%,var(--blue2) 55%,var(--sky) 100%);padding:24px 36px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,48,135,0.3)}
+.logo-row{display:flex;align-items:center;gap:14px}
+.logo-circle{width:44px;height:44px;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,0.18)}
+.logo-circle svg{width:30px;height:30px}
+.h-title{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;color:white;letter-spacing:.02em}
+.h-sub{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;font-weight:300;letter-spacing:.04em}
+.h-meta{text-align:right;font-size:11px;color:rgba(255,255,255,.65);line-height:1.7}
+.h-meta b{color:white;font-weight:600}
+
+/* YEAR TABS */
+.year-bar{background:var(--blue);display:flex;padding:0 36px;border-bottom:3px solid var(--sky)}
+.ytab{padding:11px 22px;font-family:'Montserrat',sans-serif;font-size:12px;font-weight:600;color:rgba(255,255,255,.5);border-bottom:3px solid transparent;margin-bottom:-3px;cursor:pointer;transition:.18s;letter-spacing:.03em;user-select:none}
+.ytab:hover{color:rgba(255,255,255,.85)}
+.ytab.active{color:white;border-bottom-color:var(--teal)}
+.ytab.sum-tab{margin-left:auto;border-left:1px solid rgba(255,255,255,.1);padding-left:26px}
+.ytab.sum-tab.active{color:var(--teal)}
+
+/* NAV PILLS */
+.nav-bar{background:white;border-bottom:1px solid var(--border);padding:10px 36px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:100;box-shadow:0 1px 6px rgba(0,48,135,.06)}
+.nav-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--dgray);margin-right:4px}
+.pill{padding:6px 16px;border-radius:20px;border:1.5px solid var(--border);font-size:11px;font-weight:600;font-family:'Montserrat',sans-serif;cursor:pointer;background:white;color:var(--dgray);transition:.18s;user-select:none}
+.pill:hover{border-color:var(--sky);color:var(--sky)}
+.pill.active{background:var(--blue);color:white;border-color:var(--blue)}
+.nav-sep{width:1px;height:22px;background:var(--border);margin:0 8px}
+
+/* CONTENT */
+.content{padding:24px 36px 48px}
+
+/* SECTION HEADER */
+.sec{display:flex;align-items:center;gap:10px;margin:28px 0 16px}
+.sec-line{flex:1;height:1px;background:var(--border)}
+.sec-label{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;color:var(--blue);white-space:nowrap}
+.sec-badge{font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(0,163,224,.12);color:var(--sky);font-weight:700;letter-spacing:.06em}
+
+/* KPI ROW */
+.kpi-row{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px}
+.kpi{background:white;border-radius:10px;padding:18px 20px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:3px solid var(--sky);transition:.2s}
+.kpi:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,48,135,.13)}
+.kpi-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--dgray);font-weight:700;margin-bottom:8px}
+.kpi-val{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:800;color:var(--blue);line-height:1}
+.kpi-sub{font-size:10px;color:var(--dgray);margin-top:5px;line-height:1.4}
+.kpi-delta{font-size:10px;margin-top:6px;font-weight:700}
+.up{color:#0D9488}.down{color:#DC2626}.warn{color:#D97706}
+
+/* GRIDS */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin-bottom:18px}
+.g32{display:grid;grid-template-columns:3fr 2fr;gap:18px;margin-bottom:18px}
+.g21{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:18px}
+.full{grid-column:1/-1}
+
+/* CARD */
+.card{background:white;border-radius:10px;padding:20px 22px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card-title{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px}
+.card-sub{font-size:10px;color:var(--dgray);margin-bottom:14px;line-height:1.4}
+.chart-wrap{position:relative}
+
+/* LEGEND */
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.li{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--dgray)}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.ld.round{border-radius:50%}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:11px}
+.tbl th{font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--dgray);padding:7px 10px;text-align:right;border-bottom:2px solid var(--blue);background:var(--offwhite);font-weight:700;white-space:nowrap}
+.tbl th:first-child{text-align:left}
+.tbl td{padding:9px 10px;border-bottom:1px solid var(--gray);text-align:right;vertical-align:middle}
+.tbl td:first-child{text-align:left;font-weight:600}
+.tbl tr:hover td{background:var(--offwhite)}
+.tbl tr.acr td{background:rgba(0,48,135,.04);font-weight:700}
+.bdot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;vertical-align:middle}
+.bar{display:inline-block;height:5px;border-radius:2px;vertical-align:middle;margin-left:4px;opacity:.28}
+
+/* INSIGHT CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{padding:4px 10px;border-radius:12px;font-size:10px;font-weight:700;font-family:'Montserrat',sans-serif}
+.chip-blue{background:rgba(0,48,135,.1);color:var(--blue)}
+.chip-red{background:rgba(230,57,70,.1);color:#B91C1C}
+.chip-green{background:rgba(13,148,136,.1);color:#065F46}
+.chip-warn{background:rgba(217,119,6,.1);color:#92400E}
+
+/* ANNOTATION BOX */
+.note-box{background:rgba(0,163,224,.07);border-left:3px solid var(--sky);border-radius:0 8px 8px 0;padding:12px 16px;font-size:11px;color:var(--text);line-height:1.6;margin-top:12px}
+.note-box b{color:var(--blue)}
+
+/* FOOTER */
+.footer{background:var(--blue);padding:14px 36px;display:flex;justify-content:space-between;font-size:9px;color:rgba(255,255,255,.5);letter-spacing:.04em}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-row">
+    <div class="logo-circle">
+      <svg viewBox="0 0 30 30" fill="none"><circle cx="15" cy="15" r="13" stroke="#003087" stroke-width="2.5"/><circle cx="15" cy="15" r="6.5" fill="#003087"/><circle cx="15" cy="15" r="3" fill="#00A3E0"/></svg>
+    </div>
+    <div>
+      <div class="h-title">ACUVUE® Marketplace Analytics</div>
+      <div class="h-sub">Категория контактных линз · eSOV + Продажи · Россия</div>
+    </div>
+  </div>
+  <div class="h-meta">
+    <div>Площадки: <b>Ozon · WB · Самокат · Фреш · Аптека</b></div>
+    <div>eSOV период: <b>Январь — Декабрь 2025</b></div>
+    <div>Продажи: <b>Ozon 2025 · WB 2025</b></div>
+  </div>
+</div>
+
+<!-- YEAR TABS -->
+<div class="year-bar">
+  <div class="ytab" onclick="setYear('2021')">2021</div>
+  <div class="ytab" onclick="setYear('2022')">2022</div>
+  <div class="ytab" onclick="setYear('2023')">2023</div>
+  <div class="ytab" onclick="setYear('2024')">2024</div>
+  <div class="ytab active" onclick="setYear('2025')">2025</div>
+  <div class="ytab sum-tab" onclick="setYear('summary')">📊 Тренд 2021–2025</div>
+  <div class="ytab sum-tab" onclick="setYear('insights')" style="border-left:none">💡 Инсайты & Рекомендации</div>
+</div>
+
+<!-- NAV / FILTER BAR -->
+<div class="nav-bar">
+  <span class="nav-label">Площадка:</span>
+  <div class="pill active" onclick="setPlatform(this,'both')">Ozon + WB</div>
+  <div class="pill" onclick="setPlatform(this,'ozon')">Ozon</div>
+  <div class="pill" onclick="setPlatform(this,'wb')">WB</div>
+  <div class="nav-sep"></div>
+  <span class="nav-label">Раздел:</span>
+  <div class="pill active" onclick="showSection(this,'sales')">Продажи</div>
+  <div class="pill" onclick="showSection(this,'esov')">eSOV 2025</div>
+  <div class="pill" onclick="showSection(this,'cross')">eSOV × Продажи</div>
+</div>
+
+<div class="content">
+
+  <!-- KPI ROW -->
+  <div class="kpi-row" id="kpiRow"></div>
+
+  <!-- ══════════ SALES SECTION ══════════ -->
+  <div id="sec-sales">
+
+    <div class="sec"><div class="sec-line"></div><span class="sec-label">Доли рынка и выручка</span><div class="sec-line"></div></div>
+
+    <div class="g32">
+      <div class="card">
+        <div class="card-title">Выручка по брендам</div>
+        <div class="card-sub" id="revSub">Топ-5 брендов, млн ₽</div>
+        <div class="chart-wrap" style="height:230px"><canvas id="revenueChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Доля рынка (SoS)</div>
+        <div class="card-sub">% от суммы топ-5 брендов</div>
+        <div class="chart-wrap" style="height:230px"><canvas id="shareChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Структура ACUVUE по типу линз</div>
+        <div class="card-sub">Выручка по сегментам, млн ₽</div>
+        <div class="chart-wrap" style="height:210px"><canvas id="lensChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Ценовое позиционирование</div>
+        <div class="card-sub">Медианная цена со скидкой, ₽</div>
+        <div class="chart-wrap" style="height:210px"><canvas id="priceChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0">
+      <div class="card-title">Детальная таблица — все бренды</div>
+      <div class="card-sub" id="tblSub">Выручка, продажи, доля рынка, цена</div>
+      <table class="tbl" id="brandTable"></table>
+    </div>
+  </div>
+
+  <!-- ══════════ eSoV SECTION ══════════ -->
+  <div id="sec-esov" style="display:none">
+
+    <div class="sec"><div class="sec-line"></div><span class="sec-label">eSOV 2025 — Рекламная активность</span><span class="sec-badge">Январь – Декабрь 2025</span><div class="sec-line"></div></div>
+
+    <div class="kpi-row" style="grid-template-columns:repeat(4,1fr)" id="esovKpi"></div>
+
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Paid placements по месяцам</div>
+        <div class="card-sub">Количество оплаченных размещений на MП-площадках</div>
+        <div class="chart-wrap" style="height:230px"><canvas id="esovPaidChart"></canvas></div>
+        <div class="legend">
+          <div class="li"><div class="ld" style="background:var(--b-acuvue)"></div>ACUVUE</div>
+          <div class="li"><div class="ld" style="background:var(--b-alcon)"></div>ALCON</div>
+          <div class="li"><div class="ld" style="background:var(--b-adria)"></div>ADRIA</div>
+          <div class="li"><div class="ld" style="background:var(--b-bausch)"></div>BAUSCH+LOMB</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">eSOV% — доля голоса (paid)</div>
+        <div class="card-sub">% от всех платных размещений в категории</div>
+        <div class="chart-wrap" style="height:230px"><canvas id="esovPctChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="g21">
+      <div class="card">
+        <div class="card-title">Бюджет ACUVUE по площадкам (eSOV)</div>
+        <div class="card-sub">Расходы на медийные размещения, тыс. ₽ / месяц</div>
+        <div class="chart-wrap" style="height:210px"><canvas id="costChart"></canvas></div>
+        <div class="legend">
+          <div class="li"><div class="ld" style="background:#0057B7"></div>Ozon</div>
+          <div class="li"><div class="ld" style="background:#00A3E0"></div>Самокат</div>
+          <div class="li"><div class="ld" style="background:#F4A261"></div>Аптека.ру</div>
+          <div class="li"><div class="ld" style="background:#8B5CF6"></div>Яндекс.Маркет</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Годовой eSOV — итог 2025</div>
+        <div class="card-sub">Всего paid placements за год</div>
+        <div class="chart-wrap" style="height:210px"><canvas id="esovTotalChart"></canvas></div>
+        <div class="note-box" style="margin-top:10px">
+          <b>ALCON опережает ACUVUE в eSOV</b> (1 098 vs 794 placements), но ACUVUE лидирует по продажам в 3–7× раз. Низкий eSOV при высоком SoS — недоиспользованный потенциал.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ CROSS SECTION ══════════ -->
+  <div id="sec-cross" style="display:none">
+
+    <div class="sec"><div class="sec-line"></div><span class="sec-label">eSOV × Продажи — Перекрёстный анализ</span><span class="sec-badge">2025</span><div class="sec-line"></div></div>
+
+    <!-- Monthly dual-axis: placements + revenue ACUVUE -->
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">ACUVUE: eSOV vs Выручка по месяцам</div>
+        <div class="card-sub">Бар — paid placements (левая ось) · Линия — относительная выручка WB по годам</div>
+        <div class="chart-wrap" style="height:250px"><canvas id="crossAcuvueChart"></canvas></div>
+        <div class="note-box">
+          <b>Выручка WB</b> показана в относительных индексах (2025 = рост к 2024). Продажи стабильно растут без сильной корреляции с месячным eSOV — говорит о высокой лояльности аудитории.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">eSOV% vs SoS — по брендам (2025)</div>
+        <div class="card-sub">Пузырьковая диаграмма: ось X = eSOV%, ось Y = доля продаж, размер = выручка Ozon</div>
+        <div class="chart-wrap" style="height:250px"><canvas id="bubbleChart"></canvas></div>
+        <div class="note-box">
+          <b>Идеальная позиция</b> — правый верхний угол. ACUVUE: высокий SoS, низкий eSOV → бренд «живёт» на лояльности. ALCON: высокий eSOV, средний SoS → тратит, чтобы удержать позиции.
+        </div>
+      </div>
+    </div>
+
+    <!-- Competitive monthly dual axis: esov vs esov for top brands -->
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-title">Помесячное противостояние: eSOV% брендов</div>
+      <div class="card-sub">Доля в paid placements по месяцам — кто доминирует в каком периоде</div>
+      <div class="chart-wrap" style="height:240px"><canvas id="battleChart"></canvas></div>
+      <div class="chips">
+        <span class="chip chip-blue">ACUVUE доминирует: янв, ноя, дек</span>
+        <span class="chip chip-red">ALCON доминирует: фев, мар, апр, май, окт</span>
+        <span class="chip chip-warn">ADRIA активен: июн, июл</span>
+        <span class="chip chip-green">BAUSCH+LOMB: авг, сен</span>
+      </div>
+    </div>
+
+    <!-- ROI proxy: cost per ₽ revenue -->
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Эффективность eSOV: затраты vs выручка</div>
+        <div class="card-sub">Стоимость 1 размещения (₽) по бренду и суммарная выручка Ozon 2024</div>
+        <div class="chart-wrap" style="height:220px"><canvas id="effChart"></canvas></div>
+        <div class="note-box">
+          ACUVUE тратит ~10 500 ₽ за одно платное размещение при выручке 5.1 млрд на Ozon. <b>ALCON тратит ~2 840 ₽ за размещение</b> — более агрессивная, но дешёвая стратегия.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Матрица: eSOV-активность vs результат</div>
+        <div class="card-sub">Каждый бренд в координатах «инвестиции в рекламу → доля рынка»</div>
+        <div class="chart-wrap" style="height:220px"><canvas id="matrixChart"></canvas></div>
+        <div class="chips" style="margin-top:10px">
+          <span class="chip chip-blue">ACUVUE: Organic leader</span>
+          <span class="chip chip-red">ALCON: Paid aggressor</span>
+          <span class="chip chip-warn">ADRIA: Нишевик</span>
+          <span class="chip chip-green">B+L: Тихий игрок</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ INSIGHTS SECTION ══════════ -->
+  <div id="sec-insights" style="display:none">
+
+    <div class="sec"><div class="sec-line"></div><span class="sec-label">Ключевые инсайты</span><span class="sec-badge">на основе данных eSOV + Ozon + WB + Самокат + Фреш 2025</span><div class="sec-line"></div></div>
+
+    <!-- HERO PARADOX -->
+    <div style="background:linear-gradient(120deg,var(--blue) 0%,var(--blue2) 70%,var(--sky) 100%);border-radius:12px;padding:28px 32px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center">
+      <div>
+        <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:10px;font-weight:700">Главный инсайт</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:800;color:white;line-height:1.25;margin-bottom:12px">ACUVUE — парадокс лидера</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.82);line-height:1.7">50% доли продаж при 19.8% eSOV — самый большой разрыв в категории. Бренд живёт на силе лояльности и equity, не на рекламном давлении. Это одновременно <b style="color:#7EE8D5">сила</b> (высокая органика) и <b style="color:#FFB4B4">уязвимость</b> (легко потерять полку без медиаприсутствия).</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,.15)">
+          <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:800;color:#7EE8D5">50%</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;letter-spacing:.05em">Доля продаж (SoS)</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,.15)">
+          <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:800;color:#FFB4B4">19.8%</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;letter-spacing:.05em">Доля голоса (eSOV)</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,.15)">
+          <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:800;color:white">×3–7</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;letter-spacing:.05em">Превосходство в продажах vs ALCON</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,.15)">
+          <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:800;color:#F4A261">27.5%</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;letter-spacing:.05em">eSOV ALCON (агрессивнее нас)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSIGHT CARDS GRID -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px">
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #00A3E0">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(0,163,224,.1);display:flex;align-items:center;justify-content:center;font-size:16px">🚀</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#00A3E0">Возможность</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">Самокат — золотая жила</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">67% доли выручки + 4.5 млн рекламных инвестиций. Идеальный импульсный канал: «линзы закончились — быстрая доставка». Пик активности — август–октябрь. ACUVUE уже лидирует здесь, но канал требует постоянной защиты.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-blue">67% SoS</span>
+          <span class="chip chip-green">4.5 млн бюджет</span>
+          <span class="chip chip-blue">Импульсная покупка</span>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #DC2626">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(220,38,38,.08);display:flex;align-items:center;justify-content:center;font-size:16px">⚠️</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#DC2626">Риск</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">WB — слепое пятно</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">2.5 млрд выручки ACUVUE на WB в 2025 году — и ноль в eSOV. Конкуренты не вошли туда ещё, но это вопрос времени. Sponsored-размещения на WB сейчас стоят дёшево — окно возможностей пока открыто.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-red">0 eSOV на WB</span>
+          <span class="chip chip-red">55% SoS без защиты</span>
+          <span class="chip chip-warn">Риск атаки</span>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #F4A261">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(244,162,97,.12);display:flex;align-items:center;justify-content:center;font-size:16px">💄</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#D97706">Возможность</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">Beauty/ЗЯ — ADRIA нас обошёл</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">ADRIA держит 31% в Золотом Яблоке при нашей 11%. Линзы как бьюти-продукт — незакрытая история для ACUVUE. Однодневные цветные линзы + имиджевый формат подачи = путь в этот сегмент.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-warn">ADRIA 31% в ЗЯ</span>
+          <span class="chip chip-red">ACUVUE только 11%</span>
+          <span class="chip chip-warn">Бьюти-угол не закрыт</span>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #8B5CF6">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(139,92,246,.1);display:flex;align-items:center;justify-content:center;font-size:16px">🎯</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#7C3AED">Атака</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">CooperVision — уязвимый игрок</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">14% рынка почти без рекламных инвестиций. Практически отсутствует в Самокате и Фреше. Сильны в ежемесячных линзах (Ozon). При агрессивном sponsored именно в этих сегментах можно перехватить аудиторию.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-green">Нет медиабюджета</span>
+          <span class="chip chip-green">Нет в Самокате</span>
+          <span class="chip chip-blue">Целевой сегмент: ежемесячные</span>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #E63946">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(230,57,70,.08);display:flex;align-items:center;justify-content:center;font-size:16px">🏰</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#E63946">Конкурент</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">ALCON — крепость в аптеках</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">56% доли в аптечном канале при 17% общей доли — явный перевес. Однако в Самокате и Фреше ALCON слаб. Стратегия: не воевать на их поле, а перетягивать аудиторию в e-comm через быструю доставку.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-red">ALCON 56% в аптеках</span>
+          <span class="chip chip-green">Слаб в Самокате</span>
+          <span class="chip chip-blue">Перетягиваем в e-comm</span>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #2A9D8F">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(42,157,143,.1);display:flex;align-items:center;justify-content:circle;font-size:16px;display:flex;align-items:center;justify-content:center">📅</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#2A9D8F">Сезонность</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">Пропуск в марте–июне</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">В марте–июне ACUVUE практически отсутствует в eSOV (1%, 0%, 0.5%) — именно тогда ALCON захватывает до 99% голоса. Весна — пиковый период смены линз. Это прямые потери видимости в нужный момент.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-red">Март: ACUVUE 1% eSOV</span>
+          <span class="chip chip-red">Апр–май: 0%</span>
+          <span class="chip chip-warn">ALCON: 56–99%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPETITIVE CALENDAR -->
+    <div class="sec"><div class="sec-line"></div><span class="sec-label">Конкурентный календарь eSOV 2025 — кто доминирует когда</span><div class="sec-line"></div></div>
+
+    <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;min-width:700px">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:8px 10px;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--dgray);border-bottom:2px solid var(--blue);width:90px">Бренд</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Янв</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Фев</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Мар</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Апр</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Май</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Июн</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Июл</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Авг</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Сен</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Окт</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Ноя</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Дек</th>
+          </tr>
+        </thead>
+        <tbody id="calTable"></tbody>
+      </table>
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="sec"><div class="sec-line"></div><span class="sec-label">Рекомендации для ACUVUE</span><div class="sec-line"></div></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:20px">
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">01</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Запустить eSOV на WB</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          Sponsored placements в категории «Контактные линзы» на Wildberries. Сейчас 0 eSOV при 55% SoS — самое очевидное белое пятно. Начать с баннерного брендирования категории и поисковых размещений по ключу «двухнедельные линзы».
+        </div>
+      </div>
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">02</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Закрыть весенний провал</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          Март–май — ключевое время смены линз после зимы, и именно тогда ALCON захватывает 57–99% голоса. Бюджет в этот период должен быть не нулевым, а пиковым. Особенно Ozon и Аптека.ру.
+        </div>
+      </div>
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">03</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Войти в Beauty-канал</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          Золотое Яблоко: запустить имиджевые форматы для однодневных линз. ADRIA уже занял 31% — но у ACUVUE сильнее бренд и выше ценовое восприятие. Позиционирование: «линзы как часть образа», не медицина.
+        </div>
+      </div>
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">04</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Атаковать CooperVision на Ozon</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          Sponsored в запросах «ежемесячные линзы» — именно там сосредоточена аудитория CV. Они не защищены рекламой. Запустить сравнительные акции (цена сопоставима, узнаваемость ACUVUE выше).
+        </div>
+      </div>
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">05</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Защитить Самокат и Фреш</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          67% SoS в Самокате — высокий риск атаки при любом снижении инвестиций. Пиковый период: август–октябрь (именно тогда у ACUVUE бюджет). Добавить механику подписки: «линзы раз в месяц» со скидкой.
+        </div>
+      </div>
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">06</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Не воевать в аптеках</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          ALCON держит 56% аптечного канала — их крепость, исторически. Вместо прямой конкуренции: переориентировать аудиторию через Фреш и Самокат («те же линзы, быстрее и удобнее»). ROI выше.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SUMMARY SECTION -->
+  <div id="sec-summary" style="display:none">
+    <div class="sec"><div class="sec-line"></div><span class="sec-label">Тренд 2021 – 2025</span><div class="sec-line"></div></div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Выручка Ozon по годам — все бренды</div>
+        <div class="card-sub">млрд ₽ в год</div>
+        <div class="chart-wrap" style="height:260px"><canvas id="trendOzonChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Выручка WB по годам — все бренды</div>
+        <div class="card-sub">млрд ₽ в год</div>
+        <div class="chart-wrap" style="height:260px"><canvas id="trendWBChart"></canvas></div>
+      </div>
+    </div>
+    <div class="g2">
+      <div class="card">
+        <div class="card-title">Эволюция долей рынка Ozon</div>
+        <div class="card-sub">% от топ-5, по годам</div>
+        <div class="chart-wrap" style="height:240px"><canvas id="shareEvChart"></canvas></div>
+      </div>
+      <div class="card">
+        <div class="card-title">CAGR выручки 2021→2025 (Ozon)</div>
+        <div class="card-sub">Среднегодовой темп роста</div>
+        <div class="chart-wrap" style="height:240px"><canvas id="cagrChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <span>Источники: eSOV OMD (янв–дек 2025) · Seller Fox / Moneyplace (Ozon, WB 2021–2025) · Здравсити · Самокат · Фреш (2025)</span>
+  <span>ACUVUE® — Johnson & Johnson Vision Care · Конфиденциально</span>
+</div>
+
+<script>
+/* ─── DATA ─── */
+const SALES = {"2021":{"wb_revenue":{"ACUVUE":81704853,"ALCON":13002218,"ADRIA":38876596,"BAUSCH+LOMB":1660682,"CooperVision":6753650},"wb_sales":{"ACUVUE":53523,"ALCON":6263,"ADRIA":60838,"BAUSCH+LOMB":872,"CooperVision":4841},"ozon_revenue":{"ACUVUE":1990253693,"ALCON":645712000,"ADRIA":49284212,"BAUSCH+LOMB":316344363,"CooperVision":944637264},"ozon_sales":{"ACUVUE":837463,"ALCON":344277,"ADRIA":66473,"BAUSCH+LOMB":217367,"CooperVision":563462},"wb_lens":{"ACUVUE":{"Ежедневные":31916115,"Двухнедельные":49761130,"Ежемесячные":27608,"Квартальные":0,"Цветные":0}},"ozon_lens":{"ACUVUE":{"Ежедневные":1290074935,"Двухнедельные":700178758,"Ежемесячные":0,"Квартальные":0,"Цветные":0}},"wb_price":{"ACUVUE":1795,"ALCON":2818,"ADRIA":1127,"BAUSCH+LOMB":2992,"CooperVision":1889},"ozon_price":{"ACUVUE":4955,"ALCON":2302,"ADRIA":1211,"BAUSCH+LOMB":1972,"CooperVision":2645}},"2022":{"wb_revenue":{"ACUVUE":274608487,"ALCON":27522173,"ADRIA":176325074,"BAUSCH+LOMB":11030068,"CooperVision":22302306},"wb_sales":{"ACUVUE":138912,"ALCON":7909,"ADRIA":221525,"BAUSCH+LOMB":5624,"CooperVision":12165},"ozon_revenue":{"ACUVUE":2122695143,"ALCON":1103685462,"ADRIA":248096157,"BAUSCH+LOMB":426703941,"CooperVision":2230460190},"ozon_sales":{"ACUVUE":570942,"ALCON":415861,"ADRIA":256480,"BAUSCH+LOMB":250753,"CooperVision":1057397},"wb_lens":{"ACUVUE":{"Ежедневные":70848721,"Двухнедельные":203645858,"Ежемесячные":113907,"Квартальные":0,"Цветные":0}},"ozon_lens":{"ACUVUE":{"Ежедневные":1463678663,"Двухнедельные":659016480,"Ежемесячные":0,"Квартальные":0,"Цветные":0}},"wb_price":{"ACUVUE":2335,"ALCON":2818,"ADRIA":1127,"BAUSCH+LOMB":1560,"CooperVision":1978},"ozon_price":{"ACUVUE":7950,"ALCON":3297,"ADRIA":1249,"BAUSCH+LOMB":2580,"CooperVision":2654}},"2023":{"wb_revenue":{"ACUVUE":618761350,"ALCON":63499982,"ADRIA":263859854,"BAUSCH+LOMB":103824488,"CooperVision":116099653},"wb_sales":{"ACUVUE":324825,"ALCON":28371,"ADRIA":317986,"BAUSCH+LOMB":62698,"CooperVision":71990},"ozon_revenue":{"ACUVUE":3749955683,"ALCON":1106100763,"ADRIA":230635677,"BAUSCH+LOMB":343698928,"CooperVision":1354015475},"ozon_sales":{"ACUVUE":1387196,"ALCON":395534,"ADRIA":243530,"BAUSCH+LOMB":193776,"CooperVision":610590},"wb_lens":{"ACUVUE":{"Ежедневные":214401126,"Двухнедельные":403190177,"Ежемесячные":1170047,"Квартальные":0,"Цветные":0}},"ozon_lens":{"ACUVUE":{"Ежедневные":2204042418,"Двухнедельные":1545772807,"Ежемесячные":0,"Квартальные":0,"Цветные":140458}},"wb_price":{"ACUVUE":2364,"ALCON":2679,"ADRIA":1127,"BAUSCH+LOMB":1542,"CooperVision":2096},"ozon_price":{"ACUVUE":4900,"ALCON":3650,"ADRIA":1236,"BAUSCH+LOMB":2334,"CooperVision":2690}},"2024":{"wb_revenue":{"ACUVUE":1211909412,"ALCON":172298036,"ADRIA":274127787,"BAUSCH+LOMB":244097482,"CooperVision":226415802},"wb_sales":{"ACUVUE":672273,"ALCON":121222,"ADRIA":313161,"BAUSCH+LOMB":155928,"CooperVision":135804},"ozon_revenue":{"ACUVUE":5116620311,"ALCON":1986013286,"ADRIA":539811550,"BAUSCH+LOMB":811878929,"CooperVision":924844847},"ozon_sales":{"ACUVUE":2172897,"ALCON":800715,"ADRIA":509214,"BAUSCH+LOMB":496306,"CooperVision":494804},"wb_lens":{"ACUVUE":{"Ежедневные":448303343,"Двухнедельные":759178621,"Ежемесячные":4406585,"Квартальные":0,"Цветные":20863}},"ozon_lens":{"ACUVUE":{"Ежедневные":2955171936,"Двухнедельные":2161448375,"Ежемесячные":0,"Квартальные":0,"Цветные":0}},"wb_price":{"ACUVUE":2427,"ALCON":2425,"ADRIA":1127,"BAUSCH+LOMB":1662,"CooperVision":2351},"ozon_price":{"ACUVUE":5103,"ALCON":3972,"ADRIA":1262,"BAUSCH+LOMB":2150,"CooperVision":2890}},"2025":{"wb_revenue":{"ACUVUE":2457950924,"ALCON":425517720,"ADRIA":232205375,"BAUSCH+LOMB":427315323,"CooperVision":381298064},"wb_sales":{"ACUVUE":1295364,"ALCON":244612,"ADRIA":277770,"BAUSCH+LOMB":239376,"CooperVision":205264},"ozon_revenue":{"ACUVUE":6963575376,"ALCON":2820801319,"ADRIA":651403326,"BAUSCH+LOMB":1337368764,"CooperVision":1174342448},"ozon_sales":{"ACUVUE":2837992,"ALCON":1139912,"ADRIA":587718,"BAUSCH+LOMB":691303,"CooperVision":505013},"wb_lens":{"ACUVUE":{"Ежедневные":960986300,"Двухнедельные":1483479217,"Ежемесячные":13439570,"Квартальные":0,"Цветные":45837}},"ozon_lens":{"ACUVUE":{"Ежедневные":4057492009,"Двухнедельные":2905773174,"Ежемесячные":310193,"Квартальные":0,"Цветные":0}},"wb_price":{"ACUVUE":2440,"ALCON":2481,"ADRIA":1127,"BAUSCH+LOMB":1983,"CooperVision":2351},"ozon_price":{"ACUVUE":3841,"ALCON":3923,"ADRIA":1329,"BAUSCH+LOMB":2405,"CooperVision":3062}}};
+
+const ESOV = {"1":{"paid":{"ACUVUE":108,"ALCON":8,"ADRIA":0,"BAUSCH+LOMB":0},"pct":{"ACUVUE":93.1,"ALCON":6.9,"ADRIA":0,"BAUSCH+LOMB":0},"cost":{"Ozon":685714,"Samokat":0,"AptekaRu":0,"YandexMarket":0}},"2":{"paid":{"ACUVUE":122,"ALCON":352,"ADRIA":1,"BAUSCH+LOMB":0},"pct":{"ACUVUE":25.7,"ALCON":74.1,"ADRIA":0.2,"BAUSCH+LOMB":0},"cost":{"Ozon":274286,"Samokat":0,"AptekaRu":31566,"YandexMarket":0}},"3":{"paid":{"ACUVUE":1,"ALCON":85,"ADRIA":0,"BAUSCH+LOMB":0},"pct":{"ACUVUE":1.2,"ALCON":98.8,"ADRIA":0,"BAUSCH+LOMB":0},"cost":{"Ozon":0,"Samokat":0,"AptekaRu":682,"YandexMarket":0}},"4":{"paid":{"ACUVUE":0,"ALCON":195,"ADRIA":29,"BAUSCH+LOMB":81},"pct":{"ACUVUE":0,"ALCON":63.9,"ADRIA":9.5,"BAUSCH+LOMB":26.6},"cost":{"Ozon":0,"Samokat":0,"AptekaRu":0,"YandexMarket":0}},"5":{"paid":{"ACUVUE":2,"ALCON":235,"ADRIA":68,"BAUSCH+LOMB":109},"pct":{"ACUVUE":0.5,"ALCON":56.8,"ADRIA":16.4,"BAUSCH+LOMB":26.3},"cost":{"Ozon":0,"Samokat":0,"AptekaRu":0,"YandexMarket":2540915}},"6":{"paid":{"ACUVUE":0,"ALCON":1,"ADRIA":65,"BAUSCH+LOMB":5},"pct":{"ACUVUE":0,"ALCON":1.4,"ADRIA":91.5,"BAUSCH+LOMB":7},"cost":{"Ozon":0,"Samokat":0,"AptekaRu":0,"YandexMarket":0}},"7":{"paid":{"ACUVUE":68,"ALCON":0,"ADRIA":154,"BAUSCH+LOMB":124},"pct":{"ACUVUE":19.7,"ALCON":0,"ADRIA":44.5,"BAUSCH+LOMB":35.8},"cost":{"Ozon":0,"Samokat":35714,"AptekaRu":0,"YandexMarket":0}},"8":{"paid":{"ACUVUE":84,"ALCON":0,"ADRIA":0,"BAUSCH+LOMB":91},"pct":{"ACUVUE":48,"ALCON":0,"ADRIA":0,"BAUSCH+LOMB":52},"cost":{"Ozon":0,"Samokat":178571,"AptekaRu":296161,"YandexMarket":0}},"9":{"paid":{"ACUVUE":20,"ALCON":89,"ADRIA":0,"BAUSCH+LOMB":351},"pct":{"ACUVUE":4.3,"ALCON":19.3,"ADRIA":0,"BAUSCH+LOMB":76.3},"cost":{"Ozon":514286,"Samokat":903571,"AptekaRu":11161,"YandexMarket":0}},"10":{"paid":{"ACUVUE":85,"ALCON":133,"ADRIA":0,"BAUSCH+LOMB":1},"pct":{"ACUVUE":38.8,"ALCON":60.7,"ADRIA":0,"BAUSCH+LOMB":0.5},"cost":{"Ozon":0,"Samokat":1026786,"AptekaRu":64680,"YandexMarket":0}},"11":{"paid":{"ACUVUE":64,"ALCON":0,"ADRIA":0,"BAUSCH+LOMB":9},"pct":{"ACUVUE":87.7,"ALCON":0,"ADRIA":0,"BAUSCH+LOMB":12.3},"cost":{"Ozon":0,"Samokat":766071,"AptekaRu":324405,"YandexMarket":0}},"12":{"paid":{"ACUVUE":240,"ALCON":0,"ADRIA":0,"BAUSCH+LOMB":24},"pct":{"ACUVUE":90.9,"ALCON":0,"ADRIA":0,"BAUSCH+LOMB":9.1},"cost":{"Ozon":0,"Samokat":664286,"AptekaRu":13839,"YandexMarket":0}}};
+
+const BRANDS = ['ACUVUE','ALCON','ADRIA','BAUSCH+LOMB','CooperVision'];
+const BC = {ACUVUE:'#003087',ALCON:'#E63946',ADRIA:'#F4A261','BAUSCH+LOMB':'#2A9D8F',CooperVision:'#8B5CF6'};
+const BCL = {ACUVUE:'rgba(0,48,135,.12)',ALCON:'rgba(230,57,70,.12)',ADRIA:'rgba(244,162,97,.12)','BAUSCH+LOMB':'rgba(42,157,143,.12)',CooperVision:'rgba(139,92,246,.12)'};
+const MONTHS = ['Янв','Фев','Мар','Апр','Май','Июн','Июл','Авг','Сен','Окт','Ноя','Дек'];
+const LENS_T = ['Ежедневные','Двухнедельные','Ежемесячные','Цветные'];
+const LENS_C = ['#003087','#0057B7','#00A3E0','#F4A261'];
+
+let CY = '2025', CP = 'both', CS = 'sales';
+let charts = {};
+
+const fmt = (v,d=1) => v>=1e9?(v/1e9).toFixed(d)+' млрд':v>=1e6?(v/1e6).toFixed(d)+' млн':v>=1e3?(v/1e3).toFixed(d)+' тыс.':v.toFixed(0);
+const fmM = v => (v/1e6).toFixed(1);
+const fmP = v => v.toFixed(1)+'%';
+const kill = id => { if(charts[id]){charts[id].destroy();delete charts[id];} };
+
+const grid = { color:'rgba(0,48,135,0.05)' };
+const fnt = (s=10) => ({ family:"'Open Sans',sans-serif", size:s });
+Chart.defaults.color = '#4A5568';
+
+function getRev(yr,b){ const d=SALES[yr]; if(!d)return 0; let r=0; if(CP!=='wb')r+=d.ozon_revenue[b]||0; if(CP!=='ozon')r+=d.wb_revenue[b]||0; return r; }
+function getSales(yr,b){ const d=SALES[yr]; if(!d)return 0; let s=0; if(CP!=='wb')s+=d.ozon_sales[b]||0; if(CP!=='ozon')s+=d.wb_sales[b]||0; return s; }
+function getPrice(yr,b){ const d=SALES[yr]; if(!d)return 0; if(CP==='ozon')return d.ozon_price[b]||0; if(CP==='wb')return d.wb_price[b]||0; const op=d.ozon_price[b]||0,wp=d.wb_price[b]||0; return op&&wp?(op+wp)/2:op||wp; }
+function getLens(yr,b){ const d=SALES[yr]; if(!d)return {}; const r={}; LENS_T.forEach(l=>{ let v=0; if(CP!=='wb')v+=d.ozon_lens?.[b]?.[l]||0; if(CP!=='ozon')v+=d.wb_lens?.[b]?.[l]||0; r[l]=v; }); return r; }
+
+/* KPI */
+function renderKPI(){
+  const r=getRev(CY,'ACUVUE'), tot=BRANDS.reduce((s,b)=>s+getRev(CY,b),0);
+  const sh=tot>0?r/tot*100:0, sl=getSales(CY,'ACUVUE'), pr=getPrice(CY,'ACUVUE');
+  const py=String(+CY-1), pr2=py>='2021'?getRev(py,'ACUVUE'):0;
+  const gw=pr2>0?(r-pr2)/pr2*100:null;
+  document.getElementById('kpiRow').innerHTML=`
+    <div class="kpi"><div class="kpi-lbl">Выручка ACUVUE</div><div class="kpi-val">${fmt(r)}</div><div class="kpi-sub">₽ · ${CP==='both'?'Ozon+WB':CP==='ozon'?'Ozon':'WB'}</div>${gw!==null?`<div class="kpi-delta ${gw>=0?'up':'down'}">${gw>=0?'↑':'↓'} ${Math.abs(gw).toFixed(0)}% к ${py}</div>`:''}</div>
+    <div class="kpi"><div class="kpi-lbl">Доля рынка (SoS)</div><div class="kpi-val">${fmP(sh)}</div><div class="kpi-sub">% от топ-5 брендов</div><div class="kpi-delta up">↑ Лидер категории</div></div>
+    <div class="kpi"><div class="kpi-lbl">Продажи (шт.)</div><div class="kpi-val">${fmt(sl,0)}</div><div class="kpi-sub">единиц продано</div></div>
+    <div class="kpi"><div class="kpi-lbl">Медианная цена</div><div class="kpi-val">${pr>0?Math.round(pr).toLocaleString('ru')+'₽':'—'}</div><div class="kpi-sub">vs ALCON ${Math.round(getPrice(CY,'ALCON')||0).toLocaleString('ru')}₽</div></div>
+    <div class="kpi"><div class="kpi-lbl">eSOV paid 2025</div><div class="kpi-val" style="color:var(--sky)">794</div><div class="kpi-sub">paid placements (vs ALCON 1098)</div><div class="kpi-delta warn">⚠ eSOV &lt; лидер</div></div>`;
+}
+
+/* REVENUE BAR */
+function renderRevenue(){
+  kill('revenueChart');
+  document.getElementById('revSub').textContent=`${CP==='both'?'Ozon + WB':CP==='ozon'?'Ozon':'WB'}, млн ₽`;
+  const data=BRANDS.map(b=>parseFloat(fmM(getRev(CY,b))));
+  charts.revenueChart=new Chart(document.getElementById('revenueChart'),{type:'bar',data:{labels:BRANDS,datasets:[{data,backgroundColor:BRANDS.map(b=>BC[b]),borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.y.toFixed(0)} млн ₽`}}},scales:{x:{grid:{display:false},ticks:{font:fnt()}},y:{grid,ticks:{font:fnt(),callback:v=>v+' М'}}}}});
+}
+
+/* DONUT */
+function renderShare(){
+  kill('shareChart');
+  const revs=BRANDS.map(b=>getRev(CY,b)),tot=revs.reduce((a,c)=>a+c,0);
+  const shares=revs.map(v=>tot>0?parseFloat((v/tot*100).toFixed(1)):0);
+  charts.shareChart=new Chart(document.getElementById('shareChart'),{type:'doughnut',data:{labels:BRANDS,datasets:[{data:shares,backgroundColor:BRANDS.map(b=>BC[b]),borderWidth:2,borderColor:'white',hoverOffset:8}]},options:{responsive:true,maintainAspectRatio:false,cutout:'60%',plugins:{legend:{position:'right',labels:{font:fnt(),padding:10,generateLabels:()=>BRANDS.map((b,i)=>({text:`${b}: ${shares[i]}%`,fillStyle:BC[b],strokeStyle:'transparent',index:i}))}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.parsed}%`}}}}});
+}
+
+/* LENS */
+function renderLens(){
+  kill('lensChart');
+  const lens=getLens(CY,'ACUVUE');
+  charts.lensChart=new Chart(document.getElementById('lensChart'),{type:'bar',data:{labels:LENS_T,datasets:[{data:LENS_T.map(l=>parseFloat(fmM(lens[l]||0))),backgroundColor:LENS_C,borderRadius:5,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.x.toFixed(0)} млн ₽`}}},scales:{x:{grid,ticks:{font:fnt(),callback:v=>v+'М'}},y:{grid:{display:false},ticks:{font:fnt()}}}}});
+}
+
+/* PRICE */
+function renderPrice(){
+  kill('priceChart');
+  const prices=BRANDS.map(b=>getPrice(CY,b));
+  charts.priceChart=new Chart(document.getElementById('priceChart'),{type:'bar',data:{labels:BRANDS,datasets:[{data:prices,backgroundColor:BRANDS.map(b=>BC[b]),borderRadius:5,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${Math.round(c.parsed.x).toLocaleString('ru')} ₽`}}},scales:{x:{grid,ticks:{font:fnt(),callback:v=>v.toLocaleString('ru')+'₽'}},y:{grid:{display:false},ticks:{font:fnt()}}}}});
+}
+
+/* TABLE */
+function renderTable(){
+  const rows=BRANDS.map(b=>({b,rev:getRev(CY,b),sales:getSales(CY,b)})).sort((a,c)=>c.rev-a.rev);
+  const tot=rows.reduce((s,r)=>s+r.rev,0),mx=rows[0]?.rev||1;
+  document.getElementById('tblSub').textContent=`${CP==='both'?'Ozon + WB':CP==='ozon'?'Ozon':'WB'} · ${CY}`;
+  let h=`<thead><tr><th style="text-align:left">Бренд</th><th>Выручка</th><th>Доля</th><th>Продажи</th><th>Цена (мед.)</th></tr></thead><tbody>`;
+  rows.forEach(r=>{
+    const sh=tot>0?r.rev/tot*100:0,bw=Math.round(r.rev/mx*60);
+    h+=`<tr class="${r.b==='ACUVUE'?'acr':''}"><td><span class="bdot" style="background:${BC[r.b]}"></span>${r.b}<span class="bar" style="background:${BC[r.b]};width:${bw}px"></span></td><td>${fmt(r.rev)}</td><td><b>${fmP(sh)}</b></td><td>${fmt(r.sales,0)}</td><td>${getPrice(CY,r.b)>0?Math.round(getPrice(CY,r.b)).toLocaleString('ru')+' ₽':'—'}</td></tr>`;
+  });
+  document.getElementById('brandTable').innerHTML=h+'</tbody>';
+}
+
+/* eSov KPI */
+function renderEsovKpi(){
+  const tot=Object.values(ESOV).reduce((s,m)=>s+(m.paid.ACUVUE||0),0);
+  const totAll=Object.values(ESOV).reduce((s,m)=>s+Object.values(m.paid).reduce((a,c)=>a+c,0),0);
+  const totCost=Object.values(ESOV).reduce((s,m)=>s+Object.values(m.cost).reduce((a,c)=>a+c,0),0);
+  const alconTot=Object.values(ESOV).reduce((s,m)=>s+(m.paid.ALCON||0),0);
+  document.getElementById('esovKpi').innerHTML=`
+    <div class="kpi"><div class="kpi-lbl">ACUVUE paid placements</div><div class="kpi-val" style="color:var(--b-acuvue)">${tot}</div><div class="kpi-sub">за 2025 год</div><div class="kpi-delta warn">vs ALCON: ${alconTot}</div></div>
+    <div class="kpi"><div class="kpi-lbl">Средний eSOV%</div><div class="kpi-val" style="color:var(--sky)">${(Object.values(ESOV).reduce((s,m)=>s+(m.pct.ACUVUE||0),0)/12).toFixed(0)}%</div><div class="kpi-sub">среднемесячная доля</div></div>
+    <div class="kpi"><div class="kpi-lbl">Суммарный бюджет</div><div class="kpi-val" style="color:var(--b-acuvue)">${fmt(totCost)}</div><div class="kpi-sub">₽ · все площадки 2025</div></div>
+    <div class="kpi"><div class="kpi-lbl">Активных месяцев</div><div class="kpi-val" style="color:var(--b-acuvue)">9</div><div class="kpi-sub">из 12 (апр, июн — пропуск)</div></div>`;
+}
+
+/* eSov paid chart */
+function renderEsovPaid(){
+  kill('esovPaidChart');
+  const esovBrands=['ACUVUE','ALCON','ADRIA','BAUSCH+LOMB'];
+  charts.esovPaidChart=new Chart(document.getElementById('esovPaidChart'),{type:'bar',data:{labels:MONTHS,datasets:esovBrands.map(b=>({label:b,stack:'s',data:Object.values(ESOV).map(m=>m.paid[b]||0),backgroundColor:BC[b],borderRadius:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}`}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:fnt(9)}},y:{stacked:true,grid,ticks:{font:fnt()}}}}});
+}
+
+/* eSov % */
+function renderEsovPct(){
+  kill('esovPctChart');
+  const esovBrands=['ACUVUE','ALCON','ADRIA','BAUSCH+LOMB'];
+  charts.esovPctChart=new Chart(document.getElementById('esovPctChart'),{type:'bar',data:{labels:MONTHS,datasets:esovBrands.map(b=>({label:b,stack:'p',data:Object.values(ESOV).map(m=>m.pct[b]||0),backgroundColor:BC[b],borderRadius:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:fnt(9),boxWidth:8,padding:6}},tooltip:{mode:'index',callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}%`}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:fnt(9)}},y:{stacked:true,max:100,grid,ticks:{font:fnt(),callback:v=>v+'%'}}}}});
+}
+
+/* Cost chart */
+function renderCost(){
+  kill('costChart');
+  const plats=['Ozon','Samokat','AptekaRu','YandexMarket'];
+  const pLbls=['Ozon','Самокат','Аптека.ру','Я.Маркет'];
+  const pC=['#0057B7','#00A3E0','#F4A261','#8B5CF6'];
+  charts.costChart=new Chart(document.getElementById('costChart'),{type:'bar',data:{labels:MONTHS,datasets:plats.map((p,i)=>({label:pLbls[i],stack:'c',data:Object.values(ESOV).map(m=>(m.cost[p]||0)/1000),backgroundColor:pC[i],borderRadius:2}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:'index',callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y.toFixed(0)} тыс.₽`}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:fnt(9)}},y:{stacked:true,grid,ticks:{font:fnt(),callback:v=>v+'К'}}}}});
+}
+
+/* eSov total bar */
+function renderEsovTotal(){
+  kill('esovTotalChart');
+  const esovBrands=['ACUVUE','ALCON','ADRIA','BAUSCH+LOMB'];
+  const totals=esovBrands.map(b=>Object.values(ESOV).reduce((s,m)=>s+(m.paid[b]||0),0));
+  charts.esovTotalChart=new Chart(document.getElementById('esovTotalChart'),{type:'bar',data:{labels:esovBrands,datasets:[{data:totals,backgroundColor:esovBrands.map(b=>BC[b]),borderRadius:5,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.x} placements`}}},scales:{x:{grid,ticks:{font:fnt()}},y:{grid:{display:false},ticks:{font:fnt()}}}}});
+}
+
+/* CROSS: ACUVUE monthly esov vs relative WB growth */
+function renderCrossAcuvue(){
+  kill('crossAcuvueChart');
+  const paid=Object.values(ESOV).map(m=>m.paid.ACUVUE||0);
+  // WB revenue 2025 monthly proxy: distribute evenly (no monthly data) — show eSOV cost as proxy of spend
+  const cost=Object.values(ESOV).map(m=>Object.values(m.cost).reduce((a,c)=>a+c,0)/1000);
+  charts.crossAcuvueChart=new Chart(document.getElementById('crossAcuvueChart'),{
+    type:'bar',
+    data:{labels:MONTHS,datasets:[
+      {type:'bar',label:'Paid placements',data:paid,backgroundColor:'rgba(0,48,135,0.6)',borderRadius:3,yAxisID:'y'},
+      {type:'line',label:'Бюджет eSOV (тыс.₽)',data:cost,borderColor:'#00A3E0',backgroundColor:'rgba(0,163,224,.1)',borderWidth:2.5,pointRadius:4,pointBackgroundColor:'#00A3E0',tension:0.35,fill:true,yAxisID:'y2'}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:fnt(9),boxWidth:10,padding:8}},tooltip:{mode:'index'}},
+      scales:{
+        x:{grid:{display:false},ticks:{font:fnt(9)}},
+        y:{grid,ticks:{font:fnt()},title:{display:true,text:'Placements',font:fnt(9),color:'#4A5568'}},
+        y2:{position:'right',grid:{display:false},ticks:{font:fnt(),callback:v=>v+'К'},title:{display:true,text:'Бюджет тыс.₽',font:fnt(9),color:'#00A3E0'}}
+      }
+    }
+  });
+}
+
+/* BUBBLE: eSOV% vs SoS */
+function renderBubble(){
+  kill('bubbleChart');
+  const esovBrands=['ACUVUE','ALCON','ADRIA','BAUSCH+LOMB'];
+  const avgEsov=b=>Object.values(ESOV).reduce((s,m)=>s+(m.pct[b]||0),0)/12;
+  const totRev=BRANDS.reduce((s,b)=>s+getRev('2025',b),0);
+  const sos=b=>totRev>0?getRev('2025',b)/totRev*100:0;
+  const revNorm=b=>Math.sqrt(getRev('2025',b)/1e7);
+  charts.bubbleChart=new Chart(document.getElementById('bubbleChart'),{
+    type:'bubble',
+    data:{datasets:esovBrands.map(b=>({label:b,data:[{x:parseFloat(avgEsov(b).toFixed(1)),y:parseFloat(sos(b).toFixed(1)),r:Math.max(6,Math.min(30,revNorm(b)))}],backgroundColor:BC[b]+'BB',borderColor:BC[b],borderWidth:1.5}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:fnt(9),boxWidth:10,padding:8}},
+        tooltip:{callbacks:{label:c=>`${c.dataset.label}: eSOV ${c.parsed.x}% · SoS ${c.parsed.y}%`}},
+        annotation:{annotations:{}}
+      },
+      scales:{
+        x:{grid,title:{display:true,text:'eSOV% (среднемесячный)',font:fnt(9)},ticks:{font:fnt(9),callback:v=>v+'%'}},
+        y:{grid,title:{display:true,text:'SoS% (доля продаж)',font:fnt(9)},ticks:{font:fnt(9),callback:v=>v+'%'}}
+      }
+    }
+  });
+}
+
+/* BATTLE: monthly esov% line */
+function renderBattle(){
+  kill('battleChart');
+  const esovBrands=['ACUVUE','ALCON','ADRIA','BAUSCH+LOMB'];
+  charts.battleChart=new Chart(document.getElementById('battleChart'),{
+    type:'line',
+    data:{labels:MONTHS,datasets:esovBrands.map(b=>({label:b,data:Object.values(ESOV).map(m=>m.pct[b]||0),borderColor:BC[b],backgroundColor:BC[b]+'22',borderWidth:b==='ACUVUE'?3:1.8,pointRadius:b==='ACUVUE'?5:3,pointBackgroundColor:BC[b],tension:0.35,fill:b==='ACUVUE'}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:fnt(9),boxWidth:10,padding:8}},tooltip:{mode:'index',callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y}%`}}},
+      scales:{x:{grid:{display:false},ticks:{font:fnt(9)}},y:{grid,max:100,ticks:{font:fnt(),callback:v=>v+'%'}}}}
+  });
+}
+
+/* EFFICIENCY */
+function renderEff(){
+  kill('effChart');
+  const esovBrands=['ACUVUE','ALCON','BAUSCH+LOMB'];
+  const totCost={
+    ACUVUE:Object.values(ESOV).reduce((s,m)=>s+Object.values(m.cost).reduce((a,c)=>a+c,0),0),
+    ALCON:3119250,
+    'BAUSCH+LOMB':2504126
+  };
+  const totPaid={ACUVUE:794,ALCON:1098,'BAUSCH+LOMB':795};
+  const cpp=esovBrands.map(b=>totPaid[b]>0?Math.round(totCost[b]/totPaid[b]):0);
+  charts.effChart=new Chart(document.getElementById('effChart'),{
+    type:'bar',
+    data:{labels:esovBrands,datasets:[{label:'Стоимость 1 размещения, ₽',data:cpp,backgroundColor:esovBrands.map(b=>BC[b]),borderRadius:5,borderSkipped:false}]},
+    options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.parsed.x.toLocaleString('ru')} ₽/placement`}}},
+      scales:{x:{grid,ticks:{font:fnt(),callback:v=>v.toLocaleString('ru')+'₽'}},y:{grid:{display:false},ticks:{font:fnt()}}}}
+  });
+}
+
+/* MATRIX scatter: eSOV spend vs SoS */
+function renderMatrix(){
+  kill('matrixChart');
+  const esovBrands=['ACUVUE','ALCON','ADRIA','BAUSCH+LOMB'];
+  const totCost={ACUVUE:8332695,ALCON:3119250,ADRIA:0,'BAUSCH+LOMB':2504126};
+  const totRev=BRANDS.reduce((s,b)=>s+getRev('2025',b),0);
+  const sos=b=>totRev>0?getRev('2025',b)/totRev*100:0;
+  charts.matrixChart=new Chart(document.getElementById('matrixChart'),{
+    type:'scatter',
+    data:{datasets:esovBrands.map(b=>({label:b,data:[{x:parseFloat((totCost[b]/1e6).toFixed(2)),y:parseFloat(sos(b).toFixed(1))}],backgroundColor:BC[b]+'CC',borderColor:BC[b],borderWidth:2,pointRadius:10,pointHoverRadius:13}))},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:fnt(9),boxWidth:10,padding:8}},
+        tooltip:{callbacks:{label:c=>`${c.dataset.label}: бюджет ${c.parsed.x.toFixed(1)} млн · SoS ${c.parsed.y}%`}}},
+      scales:{
+        x:{grid,title:{display:true,text:'Бюджет eSOV, млн ₽',font:fnt(9)},ticks:{font:fnt(9),callback:v=>v+' М'}},
+        y:{grid,title:{display:true,text:'Доля продаж (SoS%)',font:fnt(9)},ticks:{font:fnt(9),callback:v=>v+'%'}}
+      }}
+  });
+}
+
+/* SUMMARY charts */
+function renderSummary(){
+  const years=['2021','2022','2023','2024','2025'];
+  ['trendOzonChart','trendWBChart','shareEvChart','cagrChart'].forEach(kill);
+  // Trend Ozon
+  charts.trendOzonChart=new Chart(document.getElementById('trendOzonChart'),{type:'line',data:{labels:years,datasets:BRANDS.map(b=>({label:b,data:years.map(y=>(SALES[y].ozon_revenue[b]||0)/1e9),borderColor:BC[b],backgroundColor:BCL[b],borderWidth:b==='ACUVUE'?3:1.8,pointRadius:b==='ACUVUE'?5:3,tension:0.3,fill:false}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:fnt(9),boxWidth:10,padding:6}}},scales:{x:{grid:{display:false},ticks:{font:fnt()}},y:{grid,ticks:{font:fnt(),callback:v=>v.toFixed(1)+'B'}}}}});
+  // Trend WB
+  charts.trendWBChart=new Chart(document.getElementById('trendWBChart'),{type:'line',data:{labels:years,datasets:BRANDS.map(b=>({label:b,data:years.map(y=>(SALES[y].wb_revenue[b]||0)/1e9),borderColor:BC[b],backgroundColor:BCL[b],borderWidth:b==='ACUVUE'?3:1.8,pointRadius:b==='ACUVUE'?5:3,tension:0.3,fill:false}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:fnt(9),boxWidth:10,padding:6}}},scales:{x:{grid:{display:false},ticks:{font:fnt()}},y:{grid,ticks:{font:fnt(),callback:v=>v.toFixed(1)+'B'}}}}});
+  // Share evolution
+  const seYears=['2021','2023','2025'];
+  charts.shareEvChart=new Chart(document.getElementById('shareEvChart'),{type:'bar',data:{labels:seYears,datasets:BRANDS.map(b=>({label:b,data:seYears.map(y=>{const t=BRANDS.reduce((s,br)=>s+(SALES[y].ozon_revenue[br]||0),0);return t>0?parseFloat(((SALES[y].ozon_revenue[b]||0)/t*100).toFixed(1)):0}),backgroundColor:BC[b],borderRadius:3,stack:'s'}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'right',labels:{font:fnt(9),boxWidth:10,padding:6}},tooltip:{mode:'index',callbacks:{label:c=>` ${c.dataset.label}: ${c.parsed.y.toFixed(1)}%`}}},scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:12,weight:'700'}}},y:{stacked:true,max:100,grid,ticks:{font:fnt(),callback:v=>v+'%'}}}}});
+  // CAGR
+  const cagr=BRANDS.map(b=>{const s=SALES['2021'].ozon_revenue[b]||1,e=SALES['2025'].ozon_revenue[b]||0;return parseFloat(((Math.pow(e/s,0.25)-1)*100).toFixed(1))});
+  charts.cagrChart=new Chart(document.getElementById('cagrChart'),{type:'bar',data:{labels:BRANDS,datasets:[{data:cagr,backgroundColor:BRANDS.map(b=>BC[b]),borderRadius:5,borderSkipped:false}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` CAGR: ${c.parsed.x}%`}}},scales:{x:{grid,ticks:{font:fnt(),callback:v=>v+'%'}},y:{grid:{display:false},ticks:{font:fnt()}}}}});
+}
+
+/* SECTION MANAGEMENT */
+function renderSection(){
+  ['sales','esov','cross','summary','insights'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
+  if(CY==='summary'){document.getElementById('sec-summary').style.display='block';renderSummary();return;}
+  if(CY==='insights'){document.getElementById('sec-insights').style.display='block';renderCalendar();
+    // Show 2025 KPIs on insights tab as context
+    const savedCY=CY; CY='2025'; renderKPI(); CY=savedCY; return;
+  }
+  if(CS==='sales'){document.getElementById('sec-sales').style.display='block';renderRevenue();renderShare();renderLens();renderPrice();renderTable();}
+  else if(CS==='esov'){document.getElementById('sec-esov').style.display='block';renderEsovKpi();renderEsovPaid();renderEsovPct();renderCost();renderEsovTotal();}
+  else if(CS==='cross'){document.getElementById('sec-cross').style.display='block';renderCrossAcuvue();renderBubble();renderBattle();renderEff();renderMatrix();}
+}
+
+/* COMPETITIVE CALENDAR */
+function renderCalendar(){
+  const brands=['ACUVUE','ALCON','ADRIA','BAUSCH+LOMB'];
+  const pct={
+    ACUVUE:[93.1,25.7,1.2,0,0.5,0,19.7,48,4.3,38.8,87.7,90.9],
+    ALCON:[6.9,74.1,98.8,63.9,56.8,1.4,0,0,19.3,60.7,0,0],
+    ADRIA:[0,0.2,0,9.5,16.4,91.5,44.5,0,0,0,0,0],
+    'BAUSCH+LOMB':[0,0,0,26.6,26.3,7.0,35.8,52,76.3,0.5,12.3,9.1]
+  };
+  const cellBg=(b,v)=>{
+    if(v===0)return 'background:#F8FAFC;color:#CBD5E0';
+    const alpha=Math.min(0.85,v/100*0.85+0.1);
+    const col=BC[b];
+    return `background:${col};color:white;opacity:${alpha+0.15}`;
+  };
+  let html='';
+  brands.forEach(b=>{
+    html+=`<tr>
+      <td style="padding:8px 10px;font-weight:700;font-size:11px;border-bottom:1px solid var(--gray)"><span class="bdot" style="background:${BC[b]}"></span>${b}</td>`;
+    pct[b].forEach(v=>{
+      const dominant=v>=50;
+      html+=`<td style="text-align:center;padding:6px 2px;border-bottom:1px solid var(--gray)">
+        <div style="border-radius:6px;padding:5px 2px;font-size:10px;font-weight:700;${v===0?'background:#F1F5F9;color:#94A3B8':dominant?`background:${BC[b]};color:white`:`background:${BC[b]}22;color:${BC[b]}`}">${v===0?'—':v+'%'}</div>
+      </td>`;
+    });
+    html+='</tr>';
+  });
+  document.getElementById('calTable').innerHTML=html;
+}
+
+function setYear(y){
+  CY=y;
+  document.querySelectorAll('.ytab').forEach(t=>t.classList.remove('active'));
+  const map={'2021':0,'2022':1,'2023':2,'2024':3,'2025':4,'summary':5,'insights':6};
+  document.querySelectorAll('.ytab')[map[y]]?.classList.add('active');
+  document.querySelectorAll('.nav-bar .pill').forEach(p=>{ if(['Продажи','eSOV 2025','eSOV × Продажи'].includes(p.textContent)) p.style.display=(y==='summary'||y==='insights')?'none':''; });
+  if(y!=='summary' && y!=='insights') renderKPI();
+  renderSection();
+}
+
+function setPlatform(el,p){
+  CP=p;
+  document.querySelectorAll('.nav-bar .pill').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  // re-activate section pill
+  document.querySelectorAll('.nav-bar .pill').forEach(t=>{ if(t.textContent===({sales:'Продажи',esov:'eSOV 2025',cross:'eSOV × Продажи'}[CS]))t.classList.add('active'); });
+  renderKPI();
+  renderSection();
+}
+
+function showSection(el,s){
+  CS=s;
+  document.querySelectorAll('.nav-bar .pill').forEach(t=>{ if(['Продажи','eSOV 2025','eSOV × Продажи'].includes(t.textContent))t.classList.remove('active'); });
+  el.classList.add('active');
+  renderSection();
+}
+
+Chart.defaults.font.family="'Open Sans',sans-serif";
+setYear('2025');
+</script>
+</body>
+</html>
