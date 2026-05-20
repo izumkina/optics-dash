@@ -134,6 +134,7 @@ body{font-family:'Open Sans',sans-serif;background:var(--offwhite);color:var(--t
   <div class="ytab" onclick="setYear('2024')">2024</div>
   <div class="ytab active" onclick="setYear('2025')">2025</div>
   <div class="ytab sum-tab" onclick="setYear('summary')">📊 Тренд 2021–2025</div>
+  <div class="ytab sum-tab" onclick="setYear('insights')" style="border-left:none">💡 Инсайты & Рекомендации</div>
 </div>
 
 <!-- NAV / FILTER BAR -->
@@ -301,6 +302,214 @@ body{font-family:'Open Sans',sans-serif;background:var(--offwhite);color:var(--t
         </div>
       </div>
     </div>
+  </div>
+
+  <!-- ══════════ INSIGHTS SECTION ══════════ -->
+  <div id="sec-insights" style="display:none">
+
+    <div class="sec"><div class="sec-line"></div><span class="sec-label">Ключевые инсайты</span><span class="sec-badge">на основе данных eSOV + Ozon + WB + Самокат + Фреш 2025</span><div class="sec-line"></div></div>
+
+    <!-- HERO PARADOX -->
+    <div style="background:linear-gradient(120deg,var(--blue) 0%,var(--blue2) 70%,var(--sky) 100%);border-radius:12px;padding:28px 32px;margin-bottom:20px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center">
+      <div>
+        <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:10px;font-weight:700">Главный инсайт</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:22px;font-weight:800;color:white;line-height:1.25;margin-bottom:12px">ACUVUE — парадокс лидера</div>
+        <div style="font-size:13px;color:rgba(255,255,255,.82);line-height:1.7">50% доли продаж при 19.8% eSOV — самый большой разрыв в категории. Бренд живёт на силе лояльности и equity, не на рекламном давлении. Это одновременно <b style="color:#7EE8D5">сила</b> (высокая органика) и <b style="color:#FFB4B4">уязвимость</b> (легко потерять полку без медиаприсутствия).</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,.15)">
+          <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:800;color:#7EE8D5">50%</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;letter-spacing:.05em">Доля продаж (SoS)</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,.15)">
+          <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:800;color:#FFB4B4">19.8%</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;letter-spacing:.05em">Доля голоса (eSOV)</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,.15)">
+          <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:800;color:white">×3–7</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;letter-spacing:.05em">Превосходство в продажах vs ALCON</div>
+        </div>
+        <div style="background:rgba(255,255,255,.1);border-radius:8px;padding:16px;text-align:center;border:1px solid rgba(255,255,255,.15)">
+          <div style="font-family:'Montserrat',sans-serif;font-size:32px;font-weight:800;color:#F4A261">27.5%</div>
+          <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;letter-spacing:.05em">eSOV ALCON (агрессивнее нас)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- INSIGHT CARDS GRID -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:16px">
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #00A3E0">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(0,163,224,.1);display:flex;align-items:center;justify-content:center;font-size:16px">🚀</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#00A3E0">Возможность</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">Самокат — золотая жила</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">67% доли выручки + 4.5 млн рекламных инвестиций. Идеальный импульсный канал: «линзы закончились — быстрая доставка». Пик активности — август–октябрь. ACUVUE уже лидирует здесь, но канал требует постоянной защиты.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-blue">67% SoS</span>
+          <span class="chip chip-green">4.5 млн бюджет</span>
+          <span class="chip chip-blue">Импульсная покупка</span>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #DC2626">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(220,38,38,.08);display:flex;align-items:center;justify-content:center;font-size:16px">⚠️</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#DC2626">Риск</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">WB — слепое пятно</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">2.5 млрд выручки ACUVUE на WB в 2025 году — и ноль в eSOV. Конкуренты не вошли туда ещё, но это вопрос времени. Sponsored-размещения на WB сейчас стоят дёшево — окно возможностей пока открыто.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-red">0 eSOV на WB</span>
+          <span class="chip chip-red">55% SoS без защиты</span>
+          <span class="chip chip-warn">Риск атаки</span>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #F4A261">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(244,162,97,.12);display:flex;align-items:center;justify-content:center;font-size:16px">💄</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#D97706">Возможность</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">Beauty/ЗЯ — ADRIA нас обошёл</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">ADRIA держит 31% в Золотом Яблоке при нашей 11%. Линзы как бьюти-продукт — незакрытая история для ACUVUE. Однодневные цветные линзы + имиджевый формат подачи = путь в этот сегмент.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-warn">ADRIA 31% в ЗЯ</span>
+          <span class="chip chip-red">ACUVUE только 11%</span>
+          <span class="chip chip-warn">Бьюти-угол не закрыт</span>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #8B5CF6">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(139,92,246,.1);display:flex;align-items:center;justify-content:center;font-size:16px">🎯</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#7C3AED">Атака</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">CooperVision — уязвимый игрок</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">14% рынка почти без рекламных инвестиций. Практически отсутствует в Самокате и Фреше. Сильны в ежемесячных линзах (Ozon). При агрессивном sponsored именно в этих сегментах можно перехватить аудиторию.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-green">Нет медиабюджета</span>
+          <span class="chip chip-green">Нет в Самокате</span>
+          <span class="chip chip-blue">Целевой сегмент: ежемесячные</span>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #E63946">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(230,57,70,.08);display:flex;align-items:center;justify-content:center;font-size:16px">🏰</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#E63946">Конкурент</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">ALCON — крепость в аптеках</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">56% доли в аптечном канале при 17% общей доли — явный перевес. Однако в Самокате и Фреше ALCON слаб. Стратегия: не воевать на их поле, а перетягивать аудиторию в e-comm через быструю доставку.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-red">ALCON 56% в аптеках</span>
+          <span class="chip chip-green">Слаб в Самокате</span>
+          <span class="chip chip-blue">Перетягиваем в e-comm</span>
+        </div>
+      </div>
+
+      <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);border-top:4px solid #2A9D8F">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <div style="width:32px;height:32px;border-radius:8px;background:rgba(42,157,143,.1);display:flex;align-items:center;justify-content:circle;font-size:16px;display:flex;align-items:center;justify-content:center">📅</div>
+          <div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#2A9D8F">Сезонность</div>
+            <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:800;color:var(--text)">Пропуск в марте–июне</div>
+          </div>
+        </div>
+        <div style="font-size:12px;color:var(--dgray);line-height:1.7;margin-bottom:12px">В марте–июне ACUVUE практически отсутствует в eSOV (1%, 0%, 0.5%) — именно тогда ALCON захватывает до 99% голоса. Весна — пиковый период смены линз. Это прямые потери видимости в нужный момент.</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          <span class="chip chip-red">Март: ACUVUE 1% eSOV</span>
+          <span class="chip chip-red">Апр–май: 0%</span>
+          <span class="chip chip-warn">ALCON: 56–99%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- COMPETITIVE CALENDAR -->
+    <div class="sec"><div class="sec-line"></div><span class="sec-label">Конкурентный календарь eSOV 2025 — кто доминирует когда</span><div class="sec-line"></div></div>
+
+    <div style="background:white;border-radius:10px;padding:22px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:20px;overflow-x:auto">
+      <table style="width:100%;border-collapse:collapse;font-size:11px;min-width:700px">
+        <thead>
+          <tr>
+            <th style="text-align:left;padding:8px 10px;font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--dgray);border-bottom:2px solid var(--blue);width:90px">Бренд</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Янв</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Фев</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Мар</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Апр</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Май</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Июн</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Июл</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Авг</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Сен</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Окт</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Ноя</th>
+            <th style="padding:6px 4px;font-size:9px;color:var(--dgray);border-bottom:2px solid var(--blue);text-align:center">Дек</th>
+          </tr>
+        </thead>
+        <tbody id="calTable"></tbody>
+      </table>
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="sec"><div class="sec-line"></div><span class="sec-label">Рекомендации для ACUVUE</span><div class="sec-line"></div></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:20px">
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">01</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Запустить eSOV на WB</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          Sponsored placements в категории «Контактные линзы» на Wildberries. Сейчас 0 eSOV при 55% SoS — самое очевидное белое пятно. Начать с баннерного брендирования категории и поисковых размещений по ключу «двухнедельные линзы».
+        </div>
+      </div>
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">02</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Закрыть весенний провал</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          Март–май — ключевое время смены линз после зимы, и именно тогда ALCON захватывает 57–99% голоса. Бюджет в этот период должен быть не нулевым, а пиковым. Особенно Ozon и Аптека.ру.
+        </div>
+      </div>
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">03</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Войти в Beauty-канал</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          Золотое Яблоко: запустить имиджевые форматы для однодневных линз. ADRIA уже занял 31% — но у ACUVUE сильнее бренд и выше ценовое восприятие. Позиционирование: «линзы как часть образа», не медицина.
+        </div>
+      </div>
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">04</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Атаковать CooperVision на Ozon</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          Sponsored в запросах «ежемесячные линзы» — именно там сосредоточена аудитория CV. Они не защищены рекламой. Запустить сравнительные акции (цена сопоставима, узнаваемость ACUVUE выше).
+        </div>
+      </div>
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">05</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Защитить Самокат и Фреш</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          67% SoS в Самокате — высокий риск атаки при любом снижении инвестиций. Пиковый период: август–октябрь (именно тогда у ACUVUE бюджет). Добавить механику подписки: «линзы раз в месяц» со скидкой.
+        </div>
+      </div>
+      <div style="background:#F8FBFF;padding:24px">
+        <div style="font-family:'Montserrat',sans-serif;font-size:36px;font-weight:800;color:var(--border);line-height:1;margin-bottom:10px">06</div>
+        <div style="font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:var(--blue);margin-bottom:10px">Не воевать в аптеках</div>
+        <div style="font-size:11px;color:var(--dgray);line-height:1.75">
+          ALCON держит 56% аптечного канала — их крепость, исторически. Вместо прямой конкуренции: переориентировать аудиторию через Фреш и Самокат («те же линзы, быстрее и удобнее»). ROI выше.
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- SUMMARY SECTION -->
@@ -588,21 +797,54 @@ function renderSummary(){
 
 /* SECTION MANAGEMENT */
 function renderSection(){
-  ['sales','esov','cross','summary'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
+  ['sales','esov','cross','summary','insights'].forEach(s=>document.getElementById('sec-'+s).style.display='none');
   if(CY==='summary'){document.getElementById('sec-summary').style.display='block';renderSummary();return;}
+  if(CY==='insights'){document.getElementById('sec-insights').style.display='block';renderCalendar();
+    // Show 2025 KPIs on insights tab as context
+    const savedCY=CY; CY='2025'; renderKPI(); CY=savedCY; return;
+  }
   if(CS==='sales'){document.getElementById('sec-sales').style.display='block';renderRevenue();renderShare();renderLens();renderPrice();renderTable();}
   else if(CS==='esov'){document.getElementById('sec-esov').style.display='block';renderEsovKpi();renderEsovPaid();renderEsovPct();renderCost();renderEsovTotal();}
   else if(CS==='cross'){document.getElementById('sec-cross').style.display='block';renderCrossAcuvue();renderBubble();renderBattle();renderEff();renderMatrix();}
 }
 
+/* COMPETITIVE CALENDAR */
+function renderCalendar(){
+  const brands=['ACUVUE','ALCON','ADRIA','BAUSCH+LOMB'];
+  const pct={
+    ACUVUE:[93.1,25.7,1.2,0,0.5,0,19.7,48,4.3,38.8,87.7,90.9],
+    ALCON:[6.9,74.1,98.8,63.9,56.8,1.4,0,0,19.3,60.7,0,0],
+    ADRIA:[0,0.2,0,9.5,16.4,91.5,44.5,0,0,0,0,0],
+    'BAUSCH+LOMB':[0,0,0,26.6,26.3,7.0,35.8,52,76.3,0.5,12.3,9.1]
+  };
+  const cellBg=(b,v)=>{
+    if(v===0)return 'background:#F8FAFC;color:#CBD5E0';
+    const alpha=Math.min(0.85,v/100*0.85+0.1);
+    const col=BC[b];
+    return `background:${col};color:white;opacity:${alpha+0.15}`;
+  };
+  let html='';
+  brands.forEach(b=>{
+    html+=`<tr>
+      <td style="padding:8px 10px;font-weight:700;font-size:11px;border-bottom:1px solid var(--gray)"><span class="bdot" style="background:${BC[b]}"></span>${b}</td>`;
+    pct[b].forEach(v=>{
+      const dominant=v>=50;
+      html+=`<td style="text-align:center;padding:6px 2px;border-bottom:1px solid var(--gray)">
+        <div style="border-radius:6px;padding:5px 2px;font-size:10px;font-weight:700;${v===0?'background:#F1F5F9;color:#94A3B8':dominant?`background:${BC[b]};color:white`:`background:${BC[b]}22;color:${BC[b]}`}">${v===0?'—':v+'%'}</div>
+      </td>`;
+    });
+    html+='</tr>';
+  });
+  document.getElementById('calTable').innerHTML=html;
+}
+
 function setYear(y){
   CY=y;
   document.querySelectorAll('.ytab').forEach(t=>t.classList.remove('active'));
-  const map={'2021':0,'2022':1,'2023':2,'2024':3,'2025':4,'summary':5};
+  const map={'2021':0,'2022':1,'2023':2,'2024':3,'2025':4,'summary':5,'insights':6};
   document.querySelectorAll('.ytab')[map[y]]?.classList.add('active');
-  // Hide section nav if summary
-  document.querySelectorAll('.nav-bar .pill').forEach(p=>{ if(['Продажи','eSOV 2025','eSOV × Продажи'].includes(p.textContent)) p.style.display=y==='summary'?'none':''; });
-  renderKPI();
+  document.querySelectorAll('.nav-bar .pill').forEach(p=>{ if(['Продажи','eSOV 2025','eSOV × Продажи'].includes(p.textContent)) p.style.display=(y==='summary'||y==='insights')?'none':''; });
+  if(y!=='summary' && y!=='insights') renderKPI();
   renderSection();
 }
 
